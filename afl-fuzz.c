@@ -3314,6 +3314,9 @@ keep_as_crash:
     fn = alloc_printf("%s/coverage/id_%06u", out_dir, queued_with_cov);
 
 #endif /* ^!SIMPLE_FILES */
+	} else {
+
+	return keeping;
 	}
   }
 
