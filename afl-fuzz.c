@@ -3142,7 +3142,7 @@ static u8 save_if_interesting(char** argv, void* mem, u32 len, u8 fault) {
   u8  hnb;
   s32 fd;
   u8  keeping = 0, res;
-
+  int flag = 0;
   if (fault == crash_mode) {
 
     /* Keep only if there are new bits in the map, add to queue for
@@ -3169,6 +3169,7 @@ static u8 save_if_interesting(char** argv, void* mem, u32 len, u8 fault) {
     if (hnb == 2) {
       queue_top->has_new_cov = 1;
       queued_with_cov++;
+      flag = 1;
     }
 
     queue_top->exec_cksum = hash32(trace_bits, MAP_SIZE, HASH_CONST);
@@ -3303,7 +3304,7 @@ keep_as_crash:
     case FAULT_ERROR: FATAL("Unable to execute target application");
 
     default: 
-	if( hnb == 2 ) {
+	if( flag == 1 ) {
 #ifndef SIMPLE_FILES
     fn = alloc_printf("%s/coverage/id:%06u,%s", out_dir, queued_with_cov,
                       describe_op(hnb));
