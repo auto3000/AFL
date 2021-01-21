@@ -3303,8 +3303,8 @@ keep_as_crash:
     case FAULT_ERROR: FATAL("Unable to execute target application");
 
     default: 
+	if( hnb == 2 ) {
 #ifndef SIMPLE_FILES
-
     fn = alloc_printf("%s/coverage/id:%06u,%s", out_dir, queued_with_cov,
                       describe_op(hnb));
 
@@ -3313,7 +3313,7 @@ keep_as_crash:
     fn = alloc_printf("%s/coverage/id_%06u", out_dir, queued_with_cov);
 
 #endif /* ^!SIMPLE_FILES */
-
+	}
   }
 
   /* If we're here, we apparently want to save the crash or hang
@@ -7161,6 +7161,10 @@ EXP_ST void setup_dirs_fds(void) {
   }
 
   /* Queue directory for any starting & discovered paths. */
+
+  tmp = alloc_printf("%s/coverage", out_dir);
+  if (mkdir(tmp, 0700)) PFATAL("Unable to create '%s'", tmp);
+  ck_free(tmp);
 
   tmp = alloc_printf("%s/queue", out_dir);
   if (mkdir(tmp, 0700)) PFATAL("Unable to create '%s'", tmp);
