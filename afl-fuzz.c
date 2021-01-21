@@ -3302,7 +3302,17 @@ keep_as_crash:
 
     case FAULT_ERROR: FATAL("Unable to execute target application");
 
-    default: return keeping;
+    default: 
+#ifndef SIMPLE_FILES
+
+    fn = alloc_printf("%s/coverage/id:%06u,%s", out_dir, queued_with_cov,
+                      describe_op(hnb));
+
+#else
+
+    fn = alloc_printf("%s/coverage/id_%06u", out_dir, queued_with_cov);
+
+#endif /* ^!SIMPLE_FILES */
 
   }
 
